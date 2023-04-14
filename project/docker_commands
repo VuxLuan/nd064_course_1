@@ -1,11 +1,64 @@
 ## Docker commands used to build the application 
+docker build -t techtrends -f Dockerfile .
+
 # TODO: insert the docker build command
 
 ## Docker commands used to run the application
+docker run -d -p 7111:3111 --name techtrends techtrends
+
 # TODO: insert the docker run command
 
 ## Docker commands used to get the application logs
+
+docker exec techtrendss cat /app/app.log
 # TODO: insert the docker logs command
 
 ## Logs from the container running the TechTrends application
+WARNING:werkzeug: * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+INFO:werkzeug: * Running on http://172.17.0.2:3111/ (Press CTRL+C to quit)
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:01] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:01] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:04] "GET /1 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:04] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:08] "GET /2 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:08] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:12] "GET /3 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:12] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:15] "GET /4 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:04:15] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:05:10] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:05:10] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:05:10] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:app:Metrics request successfull
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:05:13] "GET /metrics HTTP/1.1" 200 -
+INFO:app:Status request successfull
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:05:49] "GET /healthz HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:07:07] "GET /1 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:07:07] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:07:10] "GET /2 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:07:10] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:07:14] "GET /4 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:07:14] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:11:42] "GET /1 HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:11:42] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:20] "GET /create HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:20] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:39] "GET /create HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:39] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:40] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:40] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:40] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:app:Metrics request successfull
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:12:42] "GET /metrics HTTP/1.1" 200 -
+INFO:app:Metrics request successfull
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:13:02] "GET /metrics HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:13:03] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:13:03] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:13:03] "[36mGET /static/css/main.css HTTP/1.1[0m" 304 -
+INFO:app:Status request successfull
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 08:13:04] "GET /healthz HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 09:21:26] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 09:21:26] "GET /static/css/main.css HTTP/1.1" 200 -
+INFO:werkzeug:172.17.0.1 - - [10/Apr/2023 09:21:26] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
 # TODO: paste logs from the Docker container 

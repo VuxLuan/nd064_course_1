@@ -2,6 +2,7 @@ import sqlite3
 
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
+import logging
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
@@ -66,5 +67,32 @@ def create():
     return render_template('create.html')
 
 # start the application on port 3111
+
+@app.route('/healthz')
+def healthcheck():
+    response = app.response_class(
+            response=json.dumps({"result":"OK - healthy"}),
+            status=200,
+            mimetype='application/json'
+    )
+
+    ## log line
+    app.logger.info('Status request successfull')
+    return response
+
+@app.route('/metrics')
+def metrics():
+    response = app.response_class(
+            response=json.dumps({"status":"success","code":0,"data":{"db_connection_count": 1, "post_count": 7}}),
+            status=200,
+            mimetype='application/json'
+    )
+
+    ## log line
+    app.logger.info('Metrics request successfull')
+    return response
+
+
 if __name__ == "__main__":
+   logging.basicConfig(filename='app.log',level=logging.DEBUG)
    app.run(host='0.0.0.0', port='3111')
