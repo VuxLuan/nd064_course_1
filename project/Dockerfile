@@ -10,7 +10,7 @@ RUN pip install -r requirements.txt
 EXPOSE 3111
 
 # Initialize database with pre-defined posts
-RUN python init_db.py
+RUN python ./project/techtrends/init_db.py
 
 # Run application at container start
 CMD [ "python",  "app.py" ]
