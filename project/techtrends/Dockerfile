@@ -1,5 +1,5 @@
 # Use Python 3.11 base image
-FROM python:3.11
+FROM python:3.9
 
 # Set working directory to /app
 COPY . /app
