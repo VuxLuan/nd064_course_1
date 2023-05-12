@@ -4,7 +4,7 @@ FROM python:3.8
 # Set working directory to /app
 COPY . /app
 WORKDIR /app
-RUN pip install -r requirements.txt
+RUN pip install -r /app/techtrends/requirements.txt
 
 # Expose port 3111
 EXPOSE 3111
