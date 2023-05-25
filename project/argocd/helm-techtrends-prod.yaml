@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: techtrends-prod
+spec:
+  destination:
+    namespace: prod
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: <repository-url>
+    path: helm
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values-prod.yaml
