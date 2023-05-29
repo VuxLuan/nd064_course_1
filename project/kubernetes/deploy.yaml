@@ -1,42 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: techtrends
-  namespace: sandbox
+  labels:
+    app: python-helloworld
+  name: python-helloworld
+  namespace: {{ .Values.namespace.name }} 
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }} 
   selector:
     matchLabels:
-      app: techtrends
+      app: python-helloworld
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
   template:
     metadata:
       labels:
-        app: techtrends
+        app: python-helloworld
     spec:
       containers:
-        - name: techtrends
-          image: techtrends:latest
-          imagePullPolicy: IfNotPresent
-          resources:
-            requests:
-              cpu: 250m
-              memory: 64Mi
-            limits:
-              cpu: 500m
-              memory: 128Mi
-          ports:
-            - containerPort: 3111
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 3111
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            failureThreshold: 3
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 3111
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            failureThreshold: 3
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: IfNotPresent 
+        name: python-helloworld

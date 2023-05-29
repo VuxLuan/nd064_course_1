@@ -1,42 +1,42 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "techtrends.fullname" . }}
+  name: techtrends
+  namespace: {{ .Values.namespace.name }}
   labels:
-    app: {{ include "techtrends.name" . }}
-    chart: {{ include "techtrends.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app: techtrends
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "techtrends.name" . }}
-      release: {{ .Release.Name }}
+      app: techtrends
   template:
     metadata:
       labels:
-        app: {{ include "techtrends.name" . }}
-        release: {{ .Release.Name }}
+        app: techtrends
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: techtrends
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: {{ .Values.containerPort }}
+            - containerPort: {{ .Values.containerPort }}
           resources:
-            {{ toYaml .Values.resources | indent 12 }}
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
           livenessProbe:
             httpGet:
               path: {{ .Values.livenessProbe.path }}
-              port: {{ .Values.livenessProbe.port }}
-            initialDelaySeconds: 30
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 3
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: {{ .Values.readinessProbe.path }}
-              port: {{ .Values.readinessProbe.port }}
-            initialDelaySeconds: 10
-            periodSeconds: 5
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 3
+            periodSeconds: 10

@@ -3,4 +3,6 @@ name: techtrends
 keywords:
   - techtrends
 version: 1.0.0
-maintainer: Your Name <your@email.com>
+maintainers:
+- name: luan 
+  email: luan@xyz.com
