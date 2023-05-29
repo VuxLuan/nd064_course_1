@@ -12,6 +12,6 @@ spec:
       valueFiles:
         - values-prod.yaml
   destination:
-    namespace: prod
+    namespace: default
     server: https://kubernetes.default.svc
 

@@ -12,5 +12,5 @@ spec:
       valueFiles:
         - values-staging.yaml
   destination:
-    namespace: argocd
+    namespace: default
     server: https://kubernetes.default.svc
