@@ -5,15 +5,18 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels:
     app: techtrends
+    tag: latest
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: techtrends
+      tag: latest
   template:
     metadata:
       labels:
         app: techtrends
+        tag: latest
     spec:
       containers:
         - name: techtrends
