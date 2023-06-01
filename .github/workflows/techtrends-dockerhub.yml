@@ -42,6 +42,5 @@ jobs:
         with:
           context: ./project
           file: ./project/Dockerfile
-          platforms: linux/amd64
           push: true
           tags: vuxluan/techtrends:latest
