@@ -4,3 +4,4 @@
 .myvenv/
 __pycache__/
 .vagrant/
+/Users/luanvu/nd064_course_1/project/helm/templates/image-pull-secret.yaml
