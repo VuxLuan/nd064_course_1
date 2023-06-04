@@ -5,11 +5,7 @@ from flask import Flask, jsonify, json, render_template, request, url_for, redir
 from werkzeug.exceptions import abort
 
 # Set up the logging
-logging.basicConfig(
-    format='%(asctime)s %(levelname)s: %(message)s',
-    level=logging.DEBUG,
-    stream=sys.stdout
-)
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
@@ -103,4 +99,14 @@ def metrics():
 
 # start the application on port 3111
 if __name__ == "__main__":
+    # Log Python generic logs at DEBUG level to STDOUT
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stdout_handler.setLevel(logging.DEBUG)
+    app.logger.addHandler(stdout_handler)
+
+    # Log events to STDERR
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    stderr_handler.setLevel(logging.WARNING)
+    app.logger.addHandler(stderr_handler)
+
     app.run(host='0.0.0.0', port='3111')
