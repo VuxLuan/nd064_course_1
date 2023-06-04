@@ -4,15 +4,20 @@ import sys
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
-# Set up the logging
+
+
+# Configure the logger
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Function to get a database connection.
-# This function connects to database with the name `database.db`
+# This function connects to the database with the name `database.db`
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
-    app.logger.info('New database connection established')
+
+    # Increment the connection count
+    app.config['DB_CONNECTION_COUNT'] += 1
+
     return connection
 
 # Function to get a post using its ID
@@ -20,43 +25,48 @@ def get_post(post_id):
     connection = get_db_connection()
     post = connection.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
     connection.close()
-    if post is None:
-        app.logger.info(f'Article with id {post_id} does not exist')
-    else:
-        app.logger.info(f'Article "{post["title"]}" retrieved!')
     return post
 
 # Define the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
+app.config['DB_CONNECTION_COUNT'] = 0
 
-# Define the main route of the web application 
+# Define the main route of the web application
 @app.route('/')
 def index():
+    # Retrieve posts from the database
     connection = get_db_connection()
     posts = connection.execute('SELECT * FROM posts').fetchall()
     connection.close()
-    app.logger.info('Main page accessed')
+
+    # Log the event
+    app.logger.info('Root page accessed')
+
     return render_template('index.html', posts=posts)
 
-# Define how each individual article is rendered 
-# If the post ID is not found a 404 page is shown
+# Define how each individual article is rendered
+# If the post ID is not found, a 404 page is shown
 @app.route('/<int:post_id>')
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.info(f'Article with id {post_id} does not exist')
+        # Log the event
+        app.logger.warning('Non-existing article accessed')
         return render_template('404.html'), 404
     else:
+        # Log the event
+        app.logger.info(f'Article "{post["title"]}" retrieved')
         return render_template('post.html', post=post)
 
 # Define the About Us page
 @app.route('/about')
 def about():
-    app.logger.info('About page accessed')
+    # Log the event
+    app.logger.info('About Us page accessed')
     return render_template('about.html')
 
-# Define the post creation functionality 
+# Define the post creation functionality
 @app.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
@@ -70,34 +80,30 @@ def create():
             connection.execute('INSERT INTO posts (title, content) VALUES (?, ?)', (title, content))
             connection.commit()
             connection.close()
+
+            # Log the event
             app.logger.info(f'New article "{title}" created')
+
             return redirect(url_for('index'))
 
     return render_template('create.html')
 
-# Define the /healthz endpoint
-@app.route('/healthz')
-def health_check():
-    response = {'result': 'OK - healthy'}
-    return jsonify(response), 200
-
-
-# Define the /metrics endpoint
+# Define the metrics endpoint
 @app.route('/metrics')
 def metrics():
     connection = get_db_connection()
-    posts_count = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
-    connection_count = connection.total_changes
+    post_count = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
     connection.close()
 
-    response = {
-        'db_connection_count': connection_count,
-        'post_count': posts_count
-    }
-    return jsonify(response), 200
+    # Log the event
+    app.logger.info('Metrics endpoint accessed')
 
+    return jsonify(
+        db_connection_count=app.config['DB_CONNECTION_COUNT'],
+        post_count=post_count
+    )
 
-# start the application on port 3111
+# Start the application on port 3111
 if __name__ == "__main__":
     # Log Python generic logs at DEBUG level to STDOUT
     stdout_handler = logging.StreamHandler(sys.stdout)
