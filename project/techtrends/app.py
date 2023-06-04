@@ -81,22 +81,25 @@ def create():
 
 # Define the /healthz endpoint
 @app.route('/healthz')
-def healthz():
+def health_check():
     response = {'result': 'OK - healthy'}
     return jsonify(response), 200
+
 
 # Define the /metrics endpoint
 @app.route('/metrics')
 def metrics():
     connection = get_db_connection()
-    post_count = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
+    posts_count = connection.execute('SELECT COUNT(*) FROM posts').fetchone()[0]
+    connection_count = connection.total_changes
     connection.close()
+
     response = {
-        'db_connection_count': app.config['db_connection_count'],
-        'post_count': post_count
+        'db_connection_count': connection_count,
+        'post_count': posts_count
     }
-    app.logger.info('/metrics endpoint accessed')
     return jsonify(response), 200
+
 
 # start the application on port 3111
 if __name__ == "__main__":
